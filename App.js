@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import Unsplash, { toJson } from 'unsplash-js'
+import Picture from './components/Picture'
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ export default function App() {
   )
 return (
     <View style={styles.container}>
+      <Picture />
      {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={imgs}
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'black',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
