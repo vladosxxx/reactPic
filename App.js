@@ -1,28 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect } from 'react';
+import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import Unsplash, { toJson } from 'unsplash-js'
 import Picture from './components/Picture'
+import { connect } from 'react-redux'
 
 export default function App() {
-  const [isLoading, setLoading] = useState(true);
-  const [imgs, setImg] = useState([]);
+  // const [isLoading, setLoading] = useState(true);
+  // const [imgs, setImg] = useState([]);
 
-  useEffect (()=>{
-    const unsplash = new Unsplash({
-    accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
-    });
-    unsplash.photos.listPhotos(1, 30)
-      .then(toJson)
-      .then(data => {
-        setImg(data)})
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false))
-    }, []
-  )
+  // useEffect (()=>{
+  //   const unsplash = new Unsplash({
+  //   accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
+  //   });
+  //   unsplash.photos.listPhotos(1, 30)
+  //     .then(toJson)
+  //     .then(data => {
+  //       setImg(data)})
+  //     .catch(error => console.error(error))
+  //     .finally(() => setLoading(false))
+  //   }, []
+  // )
+  const data1 = state => ({ imgs: state.imgs})
+  console.log(data1.imgs)
 return (
     <View style={styles.container}>
-      <Picture />
      {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={imgs}
