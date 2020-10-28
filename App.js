@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import Picture from './components/Picture'
-import { connect } from 'react-redux'
+import { connect, Provider } from 'react-redux'
 
-export default function App() {
+
+let App = () => {
   // const [isLoading, setLoading] = useState(true);
   // const [imgs, setImg] = useState([]);
 
@@ -20,11 +21,11 @@ export default function App() {
   //     .finally(() => setLoading(false))
   //   }, []
   // )
-  const data1 = state => ({ imgs: state.imgs})
-  console.log(data1.imgs)
+  // const data1 = state => ({ imgs: state.imgs})
 return (
+  <Provider store={store}>
     <View style={styles.container}>
-     {isLoading ? <ActivityIndicator/> : (
+     {/* {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={imgs}
           keyExtractor={( item ) => item.id}
@@ -38,11 +39,17 @@ return (
             </View>
           }
         />
-      )}
+      )} */}
+      <Text>this.props</Text>
+      <Picture />
       <StatusBar style="auto" />
     </View>
+    </Provider>
   );
 }
+App = connect()(App)
+
+export default App
 
 const styles = StyleSheet.create({
   container: {

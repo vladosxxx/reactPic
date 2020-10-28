@@ -1,11 +1,14 @@
 import { createStore } from 'redux'
+import thunk from 'redux-thunk';
 import Unsplash, { toJson } from 'unsplash-js'
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 function fetchData(state, action) {
     switch (action.type) {
         case 'LOAD_DATA':
-            return (() => {
-                useEffect(() => {
+            return (async() => {
+                await useEffect(() => {
                     const unsplash = new Unsplash({
                         accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
                     });
