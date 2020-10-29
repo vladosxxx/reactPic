@@ -2,8 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import Picture from './components/Picture'
+import { createStore } from 'redux'
+import store from './store/store'
 import { connect, Provider } from 'react-redux'
 
+const initialState = {
+
+}
 
 let App = () => {
   // const [isLoading, setLoading] = useState(true);
@@ -40,14 +45,21 @@ return (
           }
         />
       )} */}
-      <Text>this.props</Text>
+      <Text>this.state.</Text>
       <Picture />
       <StatusBar style="auto" />
     </View>
     </Provider>
   );
 }
-App = connect()(App)
+const mapStateToProps = state => {
+  console.log(state)
+  return {
+    test: 1
+  }
+}
+
+const WrappedMainComponent = connect()(App)
 
 export default App
 

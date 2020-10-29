@@ -1,39 +1,37 @@
 import { createStore } from 'redux'
-import thunk from 'redux-thunk';
-import Unsplash, { toJson } from 'unsplash-js'
+// import thunk from 'redux-thunk';
+// import Unsplash, { toJson } from 'unsplash-js'
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
-
-function fetchData(state, action) {
+function fetchData(state = initialState, action) {
     switch (action.type) {
         case 'LOAD_DATA':
-            return (async() => {
-                await useEffect(() => {
-                    const unsplash = new Unsplash({
-                        accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
-                    });
-                    unsplash.photos.listPhotos(1, 30)
-                        .then(toJson)
-                        .then(data => {
-                            state.data = data
-                        })
-                        .catch(error => console.error(error))
-                        .finally(() => state.isLoading = false)
-                }, [])
-            })
+            return state
         default:
             return state
-
     }
 }
-let initialData = {
-    data: [],
-    isLoading: true
+let initialState = {
+    imgs: "IMAGES"
 }
-let store = createStore(fetchData, initialData)
+const store = createStore(fetchData, initialState)
+
+consle.log(store.getState())
 
 store.dispatch({
     type: 'LOAD_DATA'
 })
 
-console.log(initialData)
+// async() => {
+//     await useEffect(() => {
+//         const unsplash = new Unsplash({
+//             accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
+//         });
+//         unsplash.photos.listPhotos(1, 30)
+//             .then(toJson)
+//             .then(data => {
+//                 state.data = data
+//             })
+//             .catch(error => console.error(error))
+//             .finally(() => state.isLoading = false)
+//     }, [])
+// }
