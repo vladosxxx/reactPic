@@ -2,15 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import Picture from './components/Picture'
-import { createStore } from 'redux'
-import store from './store/store'
+import { createStore } from 'redux';
 import { connect, Provider } from 'react-redux'
+import fetchData from './store/store'
 
-const initialState = {
+let store = createStore(fetchData)
 
-}
-
-let App = () => {
+export default function App() {
   // const [isLoading, setLoading] = useState(true);
   // const [imgs, setImg] = useState([]);
 
@@ -28,40 +26,22 @@ let App = () => {
   // )
   // const data1 = state => ({ imgs: state.imgs})
 return (
-  <Provider store={store}>
     <View style={styles.container}>
-     {/* {isLoading ? <ActivityIndicator/> : (
-        <FlatList
-          data={imgs}
-          keyExtractor={( item ) => item.id}
-          renderItem={({item})  => 
-            <View style={styles.item}>
-              <Image
-              style={{width: 100, height: 100}}
-              source={{ uri: item.urls.small}} 
-                />
-              <Text style={styles.text}>{item.user.name}</Text>
-            </View>
-          }
-        />
-      )} */}
-      <Text>this.state.</Text>
+      <Text>aaaa</Text>
       <Picture />
       <StatusBar style="auto" />
     </View>
-    </Provider>
   );
 }
 const mapStateToProps = state => {
-  console.log(state)
+  const { imgs } = state
   return {
-    test: 1
+    imgs
   }
 }
 
-const WrappedMainComponent = connect()(App)
 
-export default App
+// export default connect()(App)
 
 const styles = StyleSheet.create({
   container: {

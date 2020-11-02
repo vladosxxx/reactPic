@@ -15,11 +15,11 @@ let initialState = {
 }
 const store = createStore(fetchData, initialState)
 
-consle.log(store.getState())
-
 store.dispatch({
     type: 'LOAD_DATA'
 })
+
+export default fetchData
 
 // async() => {
 //     await useEffect(() => {
