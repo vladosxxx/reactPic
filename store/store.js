@@ -1,26 +1,28 @@
 import { createStore } from 'redux'
 // import thunk from 'redux-thunk';
-// import Unsplash, { toJson } from 'unsplash-js'
+import Unsplash, { toJson } from 'unsplash-js'
+
+const initialState = {
+    title: "Loading data...",
+
+}
 
 function fetchData(state = initialState, action) {
-    switch (action.type) {
-        case 'LOAD_DATA':
-            return state
-        default:
-            return state
-    }
+    return state
 }
-let initialState = {
-    imgs: "IMAGES"
-}
-const store = createStore(fetchData, initialState)
+const store = createStore(fetchData)
 
-store.dispatch({
-    type: 'LOAD_DATA'
-})
+
+const ACTION_LOAD_DATA = 'ACTION_LOAD_DATA'
+
+const actionLoadData = {
+    type: ACTION_LOAD_DATA,
+    payload: null
+}
 
 export default fetchData
 
+// store.getState()
 // async() => {
 //     await useEffect(() => {
 //         const unsplash = new Unsplash({
