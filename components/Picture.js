@@ -5,17 +5,17 @@ import { errorAfterFiveSeconds } from '../actions/actions'
 // impot fetchData from '../store/store'
 
 function Picture(props){
-    // console.log(props.urls)
+    // console.log(props.urls[0])
     return (
         <View>
-            {/* <Text>{props.urls}</Text> */}
-            {/* <Text style={{color: 'red'}}>{props.urls}</Text> */}
+             <Text style={{color: 'black'}}>{props.links.html}</Text>
+             <Text style={{color: 'red'}}>{props.id}</Text>
         
             <FlatList
                 style={{color: 'red'}}
                 data={props}
                 renderItem={({ item }) => (
-                        <Item title={ item.urls }/>
+                        <Item title={ item.links.html }/>
                   )}
                 keyExtractor={item => item.id}
             />
@@ -28,10 +28,9 @@ function Picture(props){
 } 
 
 const mapStateToProps = (state) => {
-    console.log(state.id)
-    return { 
-        id: state.id,
-        urls: state.urls }
+    return {
+        id: [...state.id],
+        urls: [...state.links] }
   }
   const mapDispatchToProps = (dispatch) => {
     return {

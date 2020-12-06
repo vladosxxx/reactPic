@@ -11,6 +11,7 @@ export function actionLoadData(data) {
 export function errorAfterFiveSeconds() {
     // We return a function instead of an action object
     return (dispatch) => {
+        console.log('here2')
         const unsplash = new Unsplash({
             accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
         });
@@ -21,6 +22,5 @@ export function errorAfterFiveSeconds() {
                 dispatch(actionLoadData(data))
             })
             .catch(error => console.error(error))
-
     }
 }
