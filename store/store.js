@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 // import thunk from 'redux-thunk';
 
 let initialState = {
-    isLoading: "AAAAA",
+    isLoading: true,
     data: []
 }
 
@@ -12,9 +12,9 @@ export default function fetchData(state = initialState, action) {
         case 'ACTION_LOAD_DATA':
             {
                 return {
-                    isLoading: "BBBB",
+                    isLoading: false,
                     data: [...action.payload]
-                } //new todos array 
+                }
             }
         default:
             return state
