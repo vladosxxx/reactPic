@@ -1,13 +1,17 @@
-import React from 'react'
-import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import React, {useState} from 'react'
+import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { errorAfterFiveSeconds } from '../actions/actions'
-// impot fetchData from '../store/store'
+import Modal from 'react-native-modal';
 
 function Picture(props){
     function fullScreenPic(a){
         console.log(a)
     }
+    const [isModalVisible, setModalVisible] = useState(false);
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
     if (props.data.isLoading === true){
         return (
             <View style={[styles.container, styles.horizontal]}>
@@ -23,14 +27,29 @@ function Picture(props){
                     style={{color: 'red'}}
                     data={props.data.data}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => alert(`Author Name: ${item.user.name}\nLikes: ${item.likes}`)}>
+                        <TouchableOpacity onPress={
+                            // alert(`Author Name: ${item.user.name}\nLikes: ${item.likes}`)
+                            () => {toggleModal()
+                            fullScreenPic(item.id)}
+                        }
+                        >
                         <Image
-                            source={{uri: item.urls.small}}
+                            source={{ uri: item.urls.small }}
                             style={styles.picnormal}/>
                         </TouchableOpacity>
                     )}
                     keyExtractor={item => item.id}
                 />
+                <Modal
+                    isVisible={isModalVisible}
+                    backdropColor = "white"
+
+                >
+                    <View style={{ flex: 1 }}>
+                        <Text>I am the modal content!!!!!!!!!!!!!!!!!!</Text>
+                        <Button title="Hide modal" onPress={toggleModal} />
+                    </View>
+                </Modal>
             </View>
         )
     }
