@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, FlatList, Item } from 'react-native'
+import { View, Text, Button, FlatList, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { errorAfterFiveSeconds } from '../actions/actions'
 // impot fetchData from '../store/store'
@@ -8,14 +8,15 @@ function Picture(props){
     // console.log(props.urls[0])
     return (
         <View>
-             <Text style={{color: 'black'}}>{props.links.html}</Text>
-             <Text style={{color: 'red'}}>{props.id}</Text>
+            <Text style={{color: 'red'}}>{props.data.isLoading}</Text>
         
             <FlatList
                 style={{color: 'red'}}
-                data={props}
+                data={props.data.data}
                 renderItem={({ item }) => (
-                        <Item title={ item.links.html }/>
+                    <Image 
+                        source={{uri: item.urls.small}} 
+                        style={{height:150, width:'100%'}} />
                   )}
                 keyExtractor={item => item.id}
             />
@@ -28,10 +29,11 @@ function Picture(props){
 } 
 
 const mapStateToProps = (state) => {
+    console.log("STATE ", state)
     return {
-        id: [...state.id],
-        urls: [...state.links] }
-  }
+        data: state
+    }
+}
   const mapDispatchToProps = (dispatch) => {
     return {
         fetchData: () => dispatch(errorAfterFiveSeconds())
