@@ -6,6 +6,7 @@ import fetchData from './store/store';
 import Picture from './components/Picture'
 import {errorAfterFiveSeconds} from "./actions/actions";
 
+
 const store = createStore(fetchData, applyMiddleware(thunk))
 store.dispatch(errorAfterFiveSeconds())
 

@@ -1,17 +1,29 @@
 import React, {useState} from 'react'
-import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet, Button } from 'react-native'
+import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { errorAfterFiveSeconds } from '../actions/actions'
 import Modal from 'react-native-modal';
 
 function Picture(props){
-    function fullScreenPic(a){
-        console.log(a)
-    }
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isOnePic, setOnePic] = useState(0);
+    const [isLoadOnepic, setLoadOnepic] = useState(true);
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+    const fullScreenPic = (a) =>{
+        setOnePic(a)
+        setLoadOnepic(false)
+    }
+    let popUpPic = 0
+    if (isLoadOnepic) {
+        popUpPic = <ActivityIndicator size="large" color="#0000ff" />;
+      } else {
+        popUpPic = <Image
+                        source={{ uri: isOnePic.full  }}
+                        style={styles.picfull}
+                    />
+      }
     if (props.data.isLoading === true){
         return (
             <View style={[styles.container, styles.horizontal]}>
@@ -22,7 +34,6 @@ function Picture(props){
     else {
         return (
             <View>
-                <Text style={{color: 'red'}}>{props.data.isLoading}</Text>
                 <FlatList
                     style={{color: 'red'}}
                     data={props.data.data}
@@ -30,7 +41,7 @@ function Picture(props){
                         <TouchableOpacity onPress={
                             // alert(`Author Name: ${item.user.name}\nLikes: ${item.likes}`)
                             () => {toggleModal()
-                            fullScreenPic(item.id)}
+                            fullScreenPic(item.urls)}
                         }
                         >
                         <Image
@@ -45,11 +56,11 @@ function Picture(props){
                     backdropColor = "white"
 
                 >
-                    <View style={{ flex: 1 }}>
-                        <Text>I am the modal content!!!!!!!!!!!!!!!!!!</Text>
-                        <Button title="Hide modal" onPress={toggleModal} />
-                    </View>
+                    <TouchableOpacity onPress={()=>toggleModal()}>
+                        {popUpPic}
+                    </TouchableOpacity>
                 </Modal>
+
             </View>
         )
     }
