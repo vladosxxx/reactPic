@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { errorAfterFiveSeconds } from '../actions/actions'
+import StatusBar from './StatusBar'
 import Modal from 'react-native-modal';
 
 function Picture(props){
@@ -13,15 +14,19 @@ function Picture(props){
     };
     const fullScreenPic = (a) =>{
         setOnePic(a)
-        setLoadOnepic(false)
+        // setLoadOnepic(false)
     }
-    let popUpPic = 0
+    let popUpPic
     if (isLoadOnepic) {
-        popUpPic = <ActivityIndicator size="large" color="#0000ff" />;
+        popUpPic = <ActivityIndicator size="large" color="#red" />
       } else {
         popUpPic = <Image
                         source={{ uri: isOnePic.full  }}
                         style={styles.picfull}
+                        onLoadStart={() => setLoadOnepic(true)}
+                        onLoad={() => setLoadOnepic(false)}
+                        onLoadEnd={() => 
+                        setLoadOnepic(false)}
                     />
       }
     if (props.data.isLoading === true){
@@ -34,14 +39,15 @@ function Picture(props){
     else {
         return (
             <View>
+                <StatusBar/>
                 <FlatList
                     style={{color: 'red'}}
                     data={props.data.data}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={
-                            // alert(`Author Name: ${item.user.name}\nLikes: ${item.likes}`)
-                            () => {toggleModal()
-                            fullScreenPic(item.urls)}
+                            () => {
+                                toggleModal()
+                                fullScreenPic(item.urls)}
                         }
                         >
                         <Image
@@ -53,11 +59,20 @@ function Picture(props){
                 />
                 <Modal
                     isVisible={isModalVisible}
-                    backdropColor = "white"
+                    backdropColor = "black"
 
                 >
                     <TouchableOpacity onPress={()=>toggleModal()}>
-                        {popUpPic}
+                    {isLoadOnepic ? (
+                            <ActivityIndicator size="large" color="white" style={styles.loading} />) : null}
+                            <Image
+                                source={{ uri: isOnePic.full  }}
+                                style={styles.picfull}
+                                onLoadStart={() => setLoadOnepic(true)}
+                                onLoad={() => setLoadOnepic(false)}
+                                onLoadEnd={() => 
+                                setLoadOnepic(false)}
+                            />
                     </TouchableOpacity>
                 </Modal>
 
@@ -94,6 +109,13 @@ const styles = StyleSheet.create({
     picnormal: {
         height: 150,
         width: "100%"
+    },
+    loading: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
   export default connect(mapStateToProps, mapDispatchToProps)(Picture)
