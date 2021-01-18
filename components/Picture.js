@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { errorAfterFiveSeconds } from '../actions/actions'
+import { fetcRandomPics } from '../actions/actions'
 import StatusBar from './StatusBar'
 import Modal from 'react-native-modal';
 
@@ -14,21 +14,8 @@ function Picture(props){
     };
     const fullScreenPic = (a) =>{
         setOnePic(a)
-        // setLoadOnepic(false)
     }
-    let popUpPic
-    if (isLoadOnepic) {
-        popUpPic = <ActivityIndicator size="large" color="#red" />
-      } else {
-        popUpPic = <Image
-                        source={{ uri: isOnePic.full  }}
-                        style={styles.picfull}
-                        onLoadStart={() => setLoadOnepic(true)}
-                        onLoad={() => setLoadOnepic(false)}
-                        onLoadEnd={() => 
-                        setLoadOnepic(false)}
-                    />
-      }
+
     if (props.data.isLoading === true){
         return (
             <View style={[styles.container, styles.horizontal]}>
@@ -82,14 +69,16 @@ function Picture(props){
 } 
 
 const mapStateToProps = (state) => {
-    console.log("STATE ", state)
+    //  console.log("STATE ", state)
     return {
         data: state
     }
 }
+
   const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(errorAfterFiveSeconds())
+        fetchData: () => dispatch(fetcRandomPics()),
+        search: () => dispatch(searchPic())
     };
 };
 const styles = StyleSheet.create({

@@ -12,12 +12,6 @@ function StatusBar () {
 
 const styles = StyleSheet.create({
   statusBar: {
-//     flex: 1,
-//     backgroundColor: Platform.OS === 'ios' ? 'red' : 'black',
-//     alignItems: 'center',
-//     flexDirection: 'row',
-//     paddingHorizontal: 10,
-//     height: StatusBar.currentHeight,
     backgroundColor: 'black',
     marginTop: Constants.statusBarHeight
   }
