@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import { ActivityIndicator, View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { Container } from 'native-base';
 import { connect } from 'react-redux'
 import { fetcRandomPics } from '../actions/actions'
 import StatusBar from './StatusBar'
@@ -18,15 +19,15 @@ function Picture(props){
 
     if (props.data.isLoading === true){
         return (
-            <View style={[styles.container, styles.horizontal]}>
+            <Container style={[styles.container, styles.horizontal]}>
                 <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            </Container>
             )
     }
     else {
         return (
-            <View>
-                <StatusBar/>
+            <Container>
+
                 <FlatList
                     style={{color: 'red'}}
                     data={props.data.data}
@@ -63,7 +64,7 @@ function Picture(props){
                     </TouchableOpacity>
                 </Modal>
 
-            </View>
+            </Container>
         )
     }
 } 
@@ -77,8 +78,7 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(fetcRandomPics()),
-        search: () => dispatch(searchPic())
+        // fetchData: () => dispatch(fetcRandomPics())
     };
 };
 const styles = StyleSheet.create({

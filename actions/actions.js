@@ -11,21 +11,16 @@ export function actionLoadData(data) {
         payload: data
     }
 }
-// export function actionSearchPic(data) {
-//     return {
-//         type: ACTION_SEARCH_PIC,
-//         payload: data
-//     }
-// }
-export function fetcRandomPics() {
+
+export function fetcRandomPics(a) {
     // We return a function instead of an action object
     return (dispatch) => {
         console.log('here1')
 
-        unsplash.search.photos("cat black", 1, 30)
+        unsplash.photos.listPhotos(1, 30)
             .then(toJson)
             .then(data => {
-                dispatch(actionLoadData(data.results))
+                dispatch(actionLoadData(data))
             })
             .catch(error => console.error(error))
     }
