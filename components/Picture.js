@@ -1,10 +1,8 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import { Container } from 'native-base';
-import { connect } from 'react-redux'
-import { fetcRandomPics } from '../actions/actions'
-import StatusBar from './StatusBar'
+import {connect} from 'react-redux'
 import Modal from 'react-native-modal';
+import SearchBar from "./SearchBar";
 
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
@@ -19,15 +17,15 @@ function Picture(props){
 
     if (props.data.isLoading === true){
         return (
-            <Container style={[styles.container, styles.horizontal]}>
+            <View style={[styles.container, styles.horizontal]}>
                 <ActivityIndicator size="large" color="#0000ff" />
-            </Container>
+            </View>
             )
     }
     else {
         return (
-            <Container>
-
+            <View>
+                <SearchBar/>
                 <FlatList
                     style={{color: 'red'}}
                     data={props.data.data}
@@ -64,7 +62,7 @@ function Picture(props){
                     </TouchableOpacity>
                 </Modal>
 
-            </Container>
+            </View>
         )
     }
 } 
@@ -76,13 +74,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-  const mapDispatchToProps = (dispatch) => {
-    return {
-        // fetchData: () => dispatch(fetcRandomPics())
-    };
-};
+
 const styles = StyleSheet.create({
-    container: {
+    View: {
         flex: 1,
         justifyContent: "center"
     },
@@ -107,4 +101,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-  export default connect(mapStateToProps, mapDispatchToProps)(Picture)
+export default connect(mapStateToProps)(Picture)

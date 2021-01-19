@@ -12,7 +12,7 @@ export function actionLoadData(data) {
     }
 }
 
-export function fetcRandomPics(a) {
+export function fetcRandomPics() {
     // We return a function instead of an action object
     return (dispatch) => {
         console.log('here1')
@@ -26,11 +26,13 @@ export function fetcRandomPics(a) {
     }
 }
 export function searchPic(text) {
+    console.log(text)
     return (dispatch) => {
-        console.log('here2')
+        console.log("in dispatch")
         unsplash.search.photos(text, 1, 30)
             .then(toJson)
             .then(data => {
+                console.log(data)
                 dispatch(actionLoadData(data.results))
             })
             .catch(error => console.error(error))
