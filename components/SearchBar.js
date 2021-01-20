@@ -42,7 +42,8 @@ const mapDispatchToProps = (dispatch) => {
     console.log('dispatch')
     return {
         fetchData: (searchTerm) => dispatch(searchPic(searchTerm)),
-        fetchRandom: () => dispatch(fetcRandomPics())
+        fetchRandom: () => dispatch(fetcRandomPics(1)),
+        fetchPage: () => dispatch()
     };
 };
 export default connect(null, mapDispatchToProps)(SearchBar)

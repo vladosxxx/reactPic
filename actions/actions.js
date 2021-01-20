@@ -47,7 +47,7 @@ export function searchPic(text) {
     console.log(text)
     return (dispatch) => {
         console.log("in dispatch")
-        unsplash.search.photos(text, 1, 10)
+        unsplash.search.photos(text, 10)
             .then(toJson)
             .then(data => {
                 console.log(data)

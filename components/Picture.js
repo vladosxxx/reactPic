@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-// import { Container } from 'native-base';
 import { connect } from 'react-redux'
 import { fetcRandomElements } from '../actions/actions'
 import SearchBar from './SearchBar'
@@ -18,8 +17,8 @@ function Picture(props){
         setOnePic(a)
     }
     const loadNewData = () => {
-        if(props.data.data.lenght >= 30){
-            setNumberPage(isNumberPage+2)
+        if(props.data.data.length >= 100){
+            setNumberPage(2)
         }
         else{
             setNumberPage(isNumberPage+1)

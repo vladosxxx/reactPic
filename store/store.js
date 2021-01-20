@@ -15,12 +15,6 @@ export default function fetchData(state = initialState, action) {
             }
         case 'ACTION_LOAD_ELEMENTS':
             {
-                // if (state.data.length >= 20) {
-                //     return {
-                //         isLoading: false,
-                //         data: state.data
-                //     }
-                // } else {
                 let filterData = new Array(20)
                 filterData = state.data.concat(action.payload)
                 filterData.filter((thing, index, self) =>
@@ -31,7 +25,6 @@ export default function fetchData(state = initialState, action) {
                     isLoading: false,
                     data: filterData
                 }
-                // }
             }
         default:
             return state
