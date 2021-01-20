@@ -9,7 +9,7 @@ import {fetcRandomPics, searchPic} from "./actions/actions";
 
 
 const store = createStore(fetchData, applyMiddleware(thunk))
-store.dispatch(fetcRandomPics())
+store.dispatch(fetcRandomPics(1))
 function App() {
     return (
       <Provider store={store}>

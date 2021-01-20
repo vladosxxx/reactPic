@@ -1,26 +1,44 @@
 import Unsplash, { toJson } from 'unsplash-js'
 
 const ACTION_LOAD_DATA = 'ACTION_LOAD_DATA'
+const ACTION_LOAD_ELEMENTS = 'ACTION_LOAD_ELEMENTS'
 
 const unsplash = new Unsplash({
     accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
 });
-export function actionLoadData(data) {
+
+function actionLoadData(data) {
     return {
         type: ACTION_LOAD_DATA,
         payload: data
     }
 }
 
-export function fetcRandomPics() {
-    // We return a function instead of an action object
-    return (dispatch) => {
-        console.log('here1')
+function actionLoadElements(data) {
+    return {
+        type: ACTION_LOAD_ELEMENTS,
+        payload: data
+    }
+}
 
-        unsplash.photos.listPhotos(1, 30)
+export function fetcRandomPics(num) {
+    return (dispatch) => {
+        unsplash.photos.listPhotos(num, 10)
             .then(toJson)
             .then(data => {
                 dispatch(actionLoadData(data))
+            })
+            .catch(error => console.error(error))
+    }
+}
+export function fetcRandomElements(num) {
+    console.log(num)
+    return (dispatch) => {
+        unsplash.photos.listPhotos(num, 10)
+            .then(toJson)
+            .then(data => {
+                console.log(data)
+                dispatch(actionLoadElements(data))
             })
             .catch(error => console.error(error))
     }
@@ -29,7 +47,7 @@ export function searchPic(text) {
     console.log(text)
     return (dispatch) => {
         console.log("in dispatch")
-        unsplash.search.photos(text, 1, 30)
+        unsplash.search.photos(text, 1, 10)
             .then(toJson)
             .then(data => {
                 console.log(data)

@@ -8,14 +8,16 @@ import {searchPic, fetcRandomPics} from "../actions/actions";
 function SearchBar(props){
     const [searchTerm, setSearchTerm] = useState("");
     const handleChange = e => {
-        setSearchTerm(e)
+      setSearchTerm(e)
     };
-    if(searchTerm === ""){
+
+    if(searchTerm.trim() === ""){
         props.fetchRandom()
     }
     else{
-        props.fetchData(searchTerm)
+      props.fetchData(searchTerm)
     }
+
     return (
       <View>
         <Header searchBar rounded>

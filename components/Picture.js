@@ -1,20 +1,31 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import {connect} from 'react-redux'
+// import { Container } from 'native-base';
+import { connect } from 'react-redux'
+import { fetcRandomElements } from '../actions/actions'
+import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
-import SearchBar from "./SearchBar";
 
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
+    const [isNumberPage, setNumberPage] = useState(2)
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
     const fullScreenPic = (a) =>{
         setOnePic(a)
     }
-
+    const loadNewData = () => {
+        if(props.data.data.lenght >= 30){
+            setNumberPage(isNumberPage+2)
+        }
+        else{
+            setNumberPage(isNumberPage+1)
+        props.fetchPage(isNumberPage)
+        }
+    }
     if (props.data.isLoading === true){
         return (
             <View style={[styles.container, styles.horizontal]}>
@@ -29,6 +40,8 @@ function Picture(props){
                 <FlatList
                     style={{color: 'red'}}
                     data={props.data.data}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={loadNewData}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={
                             () => {
@@ -74,9 +87,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPage: (num) => dispatch(fetcRandomElements(num))
+    };
+};
 const styles = StyleSheet.create({
-    View: {
+    container: {
         flex: 1,
         justifyContent: "center"
     },
@@ -101,4 +118,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-export default connect(mapStateToProps)(Picture)
+  export default connect(mapStateToProps, mapDispatchToProps)(Picture)
