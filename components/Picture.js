@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { connect } from 'react-redux'
-import { fetcRandomElements } from '../actions/actions'
+import { fetcRandomElements, searchPic } from '../actions/actions'
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
 
@@ -10,6 +11,8 @@ function Picture(props){
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
+    // const [isSearch, setSearch] = useState("")
+    // const updateData = (value) => setSearch(value)
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -21,8 +24,12 @@ function Picture(props){
             setNumberPage(2)
         }
         else{
+            // if(isSearch.trim === ""){
+            //     setNumberPage(isNumberPage+1)
+            //     props.searchPage(isSearch, isNumberPage)
+            // }
             setNumberPage(isNumberPage+1)
-        props.fetchPage(isNumberPage)
+            props.fetchPage(isNumberPage)
         }
     }
     if (props.data.isLoading === true){
@@ -35,6 +42,17 @@ function Picture(props){
     else {
         return (
             <View>
+                <Header>
+          <Left>
+            <Button transparent>
+              <Icon name='menu' />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Wallpaper</Title>
+          </Body>
+          <Right />
+        </Header>
                 <SearchBar/>
                 <FlatList
                     style={{color: 'red'}}
@@ -88,7 +106,8 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-        fetchPage: (num) => dispatch(fetcRandomElements(num))
+        fetchPage: (num) => dispatch(fetcRandomElements(num)),
+        // searchPage: (text, num) => dispatch(searchPic(text, num))
     };
 };
 const styles = StyleSheet.create({

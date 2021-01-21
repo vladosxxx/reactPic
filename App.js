@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'
 import fetchData from './store/store';
 import Picture from './components/Picture'
+import HomeScreen from './components/HomeScreen'
 // import SearchBar from './components/SearchBar'
 import {fetcRandomPics, searchPic} from "./actions/actions";
 

@@ -15,11 +15,11 @@ export default function fetchData(state = initialState, action) {
             }
         case 'ACTION_LOAD_ELEMENTS':
             {
-                let filterData = new Array(20)
-                filterData = state.data.concat(action.payload)
+
+                let filterData = state.data.concat(action.payload)
                 filterData.filter((thing, index, self) =>
                     index === self.findIndex((t) => (
-                        t.place === thing.place && t.name === thing.name
+                        t.id === thing.id
                     )))
                 return {
                     isLoading: false,

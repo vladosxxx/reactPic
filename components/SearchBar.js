@@ -10,13 +10,16 @@ function SearchBar(props){
     const handleChange = e => {
       setSearchTerm(e)
     };
-
-    if(searchTerm.trim() === ""){
+    const searchSubmit = () => {
+      if(searchTerm.trim() === ""){
         props.fetchRandom()
     }
     else{
       props.fetchData(searchTerm)
+      // props.updateData(searchTerm)
     }
+    }
+    
 
     return (
       <View>
@@ -26,6 +29,7 @@ function SearchBar(props){
             <Input
                 placeholder="Search"
                 value={searchTerm}
+                onSubmitEditing={searchSubmit}
                 onChangeText={handleChange}
             />
             <Icon name="ios-people" />
@@ -41,9 +45,8 @@ function SearchBar(props){
 const mapDispatchToProps = (dispatch) => {
     console.log('dispatch')
     return {
-        fetchData: (searchTerm) => dispatch(searchPic(searchTerm)),
-        fetchRandom: () => dispatch(fetcRandomPics(1)),
-        fetchPage: () => dispatch()
+        fetchData: (text) => dispatch(searchPic(text)),
+        fetchRandom: () => dispatch(fetcRandomPics(1))
     };
 };
 export default connect(null, mapDispatchToProps)(SearchBar)

@@ -55,5 +55,4 @@ export function searchPic(text) {
             })
             .catch(error => console.error(error))
     }
-
 }
