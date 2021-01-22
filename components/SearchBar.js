@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text } from 'native-base';
-import { View } from "react-native";
 import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
+import { Button, Header, Input, Text, Icon, ThemeProvider } from 'react-native-elements';
+
 
 
 function SearchBar(props){
@@ -22,9 +22,8 @@ function SearchBar(props){
     
 
     return (
-      <View>
+      <ThemeProvider>
         <Header searchBar rounded>
-          <Item>
             <Icon name="ios-search" />
             <Input
                 placeholder="Search"
@@ -33,12 +32,11 @@ function SearchBar(props){
                 onChangeText={handleChange}
             />
             <Icon name="ios-people" />
-          </Item>
           <Button transparent>
             <Text>Search</Text>
           </Button>
         </Header>
-      </View>
+      </ThemeProvider>
     );
 }
 

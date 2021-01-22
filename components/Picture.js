@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPic } from '../actions/actions'
 import SearchBar from './SearchBar'
@@ -42,7 +41,7 @@ function Picture(props){
     else {
         return (
             <View>
-                <Header>
+                <SearchBar/>
           <Left>
             <Button transparent>
               <Icon name='menu' />
@@ -52,7 +51,7 @@ function Picture(props){
             <Title>Wallpaper</Title>
           </Body>
           <Right />
-        </Header>
+        </SearchBar>
                 <SearchBar/>
                 <FlatList
                     style={{color: 'red'}}
