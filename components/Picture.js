@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+// import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPic } from '../actions/actions'
 import SearchBar from './SearchBar'
@@ -11,8 +11,7 @@ function Picture(props){
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
-    // const [isSearch, setSearch] = useState("")
-    // const updateData = (value) => setSearch(value)
+
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -24,10 +23,7 @@ function Picture(props){
             setNumberPage(2)
         }
         else{
-            // if(isSearch.trim === ""){
-            //     setNumberPage(isNumberPage+1)
-            //     props.searchPage(isSearch, isNumberPage)
-            // }
+
             setNumberPage(isNumberPage+1)
             props.fetchPage(isNumberPage)
         }
@@ -42,17 +38,7 @@ function Picture(props){
     else {
         return (
             <View>
-                <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Wallpaper</Title>
-          </Body>
-          <Right />
-        </Header>
+
                 <SearchBar/>
                 <FlatList
                     style={{color: 'red'}}

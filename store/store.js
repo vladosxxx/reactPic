@@ -17,13 +17,11 @@ export default function fetchData(state = initialState, action) {
             {
 
                 let filterData = state.data.concat(action.payload)
-                filterData.filter((thing, index, self) =>
-                    index === self.findIndex((t) => (
-                        t.id === thing.id
-                    )))
+                const table = {};
+                const res = filterData.filter(({id}) =>(!table[id] && (table[id] = 1)));
                 return {
                     isLoading: false,
-                    data: filterData
+                    data: res
                 }
             }
         default:

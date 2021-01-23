@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from 'react-native'
 
-function Menu() {
+function AboutApp() {
     return(
         <View>
             <Text>AAAAA</Text>
@@ -9,4 +9,4 @@ function Menu() {
     )
 }
 
-export default Menu
+export default AboutApp
