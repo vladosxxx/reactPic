@@ -10,7 +10,7 @@ function HomeScreen() {
             <Button
               transparent
               onPress={() => props.navigation.navigate("DrawerOpen")}>
-              <Icon name="menu" />
+              {/*<Icon name="menu" />*/}
             </Button>
           </Left>
           <Body>

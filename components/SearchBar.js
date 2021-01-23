@@ -25,14 +25,16 @@ function SearchBar(props){
       <View>
         <Header searchBar rounded>
           <Item>
-            <Icon name="ios-search" />
+            {/*<Icon name="ios-search" />*/}
             <Input
                 placeholder="Search"
                 value={searchTerm}
                 onSubmitEditing={searchSubmit}
                 onChangeText={handleChange}
             />
+{/*
             <Icon name="ios-people" />
+*/}
           </Item>
           <Button transparent>
             <Text>Search</Text>

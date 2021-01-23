@@ -6,14 +6,13 @@ import Drawer from 'react-native-drawer';
 import Menu from './Menu'
 
 function HeaderWall() {
-  closeControlPanel = () => {
-    _drawer.close()
-  };
-  openControlPanel = () => {
-    _drawer.open()
-  };
+  // closeControlPanel = () => {
+  //   _drawer.close()
+  // };
+  // openControlPanel = () => {
+  //   _drawer.open()
+  // };
     return(
-      
       <Header>
               <Drawer
                 ref={(ref) =>_drawer = ref}
@@ -37,7 +36,7 @@ function HeaderWall() {
     </Drawer>
       <Left>
         <Button transparent>
-          <Icon name='menu' />
+          {/*<Icon name='menu' />*/}
         </Button>
       </Left>
       <Body>
