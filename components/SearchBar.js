@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text } from 'native-base';
-import { View } from "react-native";
+import { Header, Item, Input, Icon, Button, Text, View } from 'native-base';
 import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
+
 
 
 function SearchBar(props){
@@ -11,26 +11,29 @@ function SearchBar(props){
       setSearchTerm(e)
     };
     const searchSubmit = () => {
-      if(searchTerm.trim() === ""){
+    if(searchTerm.trim() === ""){
+        setSearchTerm("")
+        props.updateData(searchTerm)
         props.fetchRandom()
     }
     else{
+      props.updateData(searchTerm)
       props.fetchData(searchTerm)
-      // props.updateData(searchTerm)
     }
     }
     
-
     return (
       <View>
         <Header searchBar rounded>
           <Item>
+          <Icon name="ios-search" />
             <Input
                 placeholder="Search"
                 value={searchTerm}
                 onSubmitEditing={searchSubmit}
                 onChangeText={handleChange}
             />
+            <Icon name="ios-people" />
           </Item>
           <Button transparent>
             <Text>Search</Text>
@@ -43,7 +46,7 @@ function SearchBar(props){
 const mapDispatchToProps = (dispatch) => {
     console.log('dispatch')
     return {
-        fetchData: (text) => dispatch(searchPic(text)),
+        fetchData: (text) => dispatch(searchPic(text, 1)),
         fetchRandom: () => dispatch(fetcRandomPics(1))
     };
 };

@@ -2,16 +2,21 @@ import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 // import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { connect } from 'react-redux'
-import { fetcRandomElements, searchPic } from '../actions/actions'
+import { fetcRandomElements, searchPicPage } from '../actions/actions'
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
+
 
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
+    const [searchTerm, setSearchTerm] = useState("");
 
+    const updateData = (value) => {
+        setSearchTerm(value)
+     }
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -19,13 +24,18 @@ function Picture(props){
         setOnePic(a)
     }
     const loadNewData = () => {
-        if(props.data.data.length >= 100){
-            setNumberPage(2)
+        if(searchTerm === ''){
+            if(props.data.data.length >= 100){
+                setNumberPage(2)
+            }
+            else{
+                setNumberPage(isNumberPage+1)
+                props.fetchPage(isNumberPage)
+            }
         }
-        else{
-
+        else {
             setNumberPage(isNumberPage+1)
-            props.fetchPage(isNumberPage)
+            props.searchPage(searchTerm, isNumberPage)
         }
     }
     if (props.data.isLoading === true){
@@ -38,10 +48,8 @@ function Picture(props){
     else {
         return (
             <View>
-
-                <SearchBar/>
+            <SearchBar updateData={updateData}/>
                 <FlatList
-                    style={{color: 'red'}}
                     data={props.data.data}
                     onEndReachedThreshold={0.1}
                     onEndReached={loadNewData}
@@ -93,7 +101,7 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return {
         fetchPage: (num) => dispatch(fetcRandomElements(num)),
-        // searchPage: (text, num) => dispatch(searchPic(text, num))
+        searchPage: (text, isNumberPage) => dispatch(searchPicPage(text, isNumberPage))
     };
 };
 const styles = StyleSheet.create({

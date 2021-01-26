@@ -32,25 +32,30 @@ export function fetcRandomPics(num) {
     }
 }
 export function fetcRandomElements(num) {
-    console.log(num)
     return (dispatch) => {
         unsplash.photos.listPhotos(num, 10)
             .then(toJson)
             .then(data => {
-                console.log(data)
                 dispatch(actionLoadElements(data))
             })
             .catch(error => console.error(error))
     }
 }
-export function searchPic(text) {
-    console.log(text)
+export function searchPicPage(text, num) {
     return (dispatch) => {
-        console.log("in dispatch")
-        unsplash.search.photos(text, 10)
+        unsplash.search.photos(text, num, 10)
             .then(toJson)
             .then(data => {
-                console.log(data)
+                dispatch(actionLoadElements(data.results))
+            })
+            .catch(error => console.error(error))
+    }
+}
+export function searchPic(text, num) {
+    return (dispatch) => {
+        unsplash.search.photos(text, num, 10)
+            .then(toJson)
+            .then(data => {
                 dispatch(actionLoadData(data.results))
             })
             .catch(error => console.error(error))
