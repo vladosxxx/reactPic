@@ -24,14 +24,12 @@ function Picture(props){
         setOnePic(a)
     }
     const loadNewData = () => {
+        if(props.data.data.length >= 100){
+            setNumberPage(2)
+        }
         if(searchTerm === ''){
-            if(props.data.data.length >= 100){
-                setNumberPage(2)
-            }
-            else{
-                setNumberPage(isNumberPage+1)
-                props.fetchPage(isNumberPage)
-            }
+            setNumberPage(isNumberPage+1)
+            props.fetchPage(isNumberPage)
         }
         else {
             setNumberPage(isNumberPage+1)

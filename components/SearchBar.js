@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text, View } from 'native-base';
+import { Header, Item, Input, Icon, Button, Text, View, TouchableHighlight } from 'native-base';
 import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
 
@@ -11,29 +11,37 @@ function SearchBar(props){
       setSearchTerm(e)
     };
     const searchSubmit = () => {
-    if(searchTerm.trim() === ""){
-        setSearchTerm("")
+      if(searchTerm.trim() === ""){
+          setSearchTerm("")
+          props.updateData(searchTerm)
+          props.fetchRandom()
+      }
+      else{
         props.updateData(searchTerm)
-        props.fetchRandom()
+        props.fetchData(searchTerm)
+      }
     }
-    else{
-      props.updateData(searchTerm)
-      props.fetchData(searchTerm)
+    const cleanSearch = () => {
+      setSearchTerm("")
+      props.fetchRandom()
     }
-    }
-    
     return (
       <View>
         <Header searchBar rounded>
           <Item>
-          <Icon name="ios-search" />
+          <Icon name="ios-search" 
+            onPress={searchSubmit}
+          />
             <Input
                 placeholder="Search"
                 value={searchTerm}
                 onSubmitEditing={searchSubmit}
                 onChangeText={handleChange}
             />
-            <Icon name="ios-people" />
+            <Icon
+              name="ios-close"
+              onPress={cleanSearch}
+             />
           </Item>
           <Button transparent>
             <Text>Search</Text>
