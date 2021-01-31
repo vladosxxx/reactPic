@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text, View } from 'native-base';
+import { Header, Item, Input, Icon, Button, Text, View, Left } from 'native-base';
 import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
 import { useNavigation } from '@react-navigation/native';
@@ -30,12 +30,14 @@ function SearchBar(props){
 
     return (
       <View>
-          <Button
-              transparent
-              onPress={() => navigation.openDrawer()}>
-              <Icon name="menu" />
-          </Button>
         <Header searchBar rounded>
+            <Left>
+            <Button
+                transparent
+                onPress={() => navigation.openDrawer()}>
+                <Icon name="menu" />
+            </Button>
+            </Left>
             <Item>
           <Icon name="ios-search" 
             onPress={searchSubmit}

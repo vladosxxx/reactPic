@@ -1,11 +1,9 @@
 import React, {useState} from 'react'
 import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import {  Button,  Icon } from 'native-base';
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage } from '../actions/actions'
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
-import AboutApp from "./AboutApp";
 
 
 function Picture(props){
@@ -91,7 +89,6 @@ function Picture(props){
 } 
 
 const mapStateToProps = (state) => {
-    //  console.log("STATE ", state)
     return {
         data: state
     }
