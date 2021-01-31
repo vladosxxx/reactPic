@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text, View, TouchableHighlight } from 'native-base';
+import { Header, Item, Input, Icon, Button, Text, View } from 'native-base';
 import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
+import { useNavigation } from '@react-navigation/native';
 
 
 
 function SearchBar(props){
     const [searchTerm, setSearchTerm] = useState("");
+    const navigation = useNavigation();
     const handleChange = e => {
       setSearchTerm(e)
     };
@@ -25,10 +27,16 @@ function SearchBar(props){
       setSearchTerm("")
       props.fetchRandom()
     }
+
     return (
       <View>
+          <Button
+              transparent
+              onPress={() => navigation.openDrawer()}>
+              <Icon name="menu" />
+          </Button>
         <Header searchBar rounded>
-          <Item>
+            <Item>
           <Icon name="ios-search" 
             onPress={searchSubmit}
           />
