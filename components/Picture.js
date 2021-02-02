@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-// import {SafeAreaView} from 'native-base'
+import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button } from 'react-native'
+// import { Button } from 'native-base'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage } from '../actions/actions'
+import * as MediaLibrary from 'expo-media-library';
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
 
@@ -86,6 +87,10 @@ function Picture(props){
                                 onLoadEnd={() => 
                                 setLoadOnepic(false)}
                             />
+                        <Button
+                            title="Learn"
+                            onPress={() => MediaLibrary.saveToLibraryAsync(isOnePic.full)}
+                            />
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     picfull: {
-        height: "100%",
+        height: "80%",
         width: "100%"
     },
     picnormal: {
