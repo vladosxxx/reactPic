@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
+import { ScrollView, Image, Text, SafeAreaView} from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'
@@ -38,9 +39,22 @@ function App() {
       return (
         <Provider store={store}>
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName="Picture">
-                    <Drawer.Screen name="Picture" component={Picture} />
-                    <Drawer.Screen name="AboutApp" component={AboutApp} />
+                <Drawer.Navigator 
+                initialRouteName="Picture"
+                drawerContent={props => CustomDrawer(props)}
+                drawerContentOptions={{
+                  
+                }}
+                >
+                    <Drawer.Screen 
+                      name="Picture" 
+                      component={Picture}
+                      
+                      />
+                    <Drawer.Screen 
+                      name="AboutApp" 
+                      component={AboutApp} 
+                      />
                 </Drawer.Navigator>
             </NavigationContainer>
         </Provider>
@@ -48,5 +62,26 @@ function App() {
     }
 
 }
+const CustomDrawer = props => {
+  return (
+    <ScrollView contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
+    <SafeAreaView>
+        <Image 
+        source={require('./assets/logo.png')}
+        style={{ width: 150, height: 150, alignSelf: 'center'}} 
+        /> 
+      <DrawerItemList {...props}/>
+    </SafeAreaView>
+
+   <Text
+    style={{
+      alignSelf: 'center',
+      margin: 10
+      }}
+   >v1.0</Text>
+
+  </ScrollView>
+ );
+};
 
 export default App

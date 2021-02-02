@@ -82,7 +82,6 @@ function Picture(props){
                             />
                     </TouchableOpacity>
                 </Modal>
-
             </View>
         )
     }
