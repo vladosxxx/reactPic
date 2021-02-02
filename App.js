@@ -47,7 +47,7 @@ function App() {
                 }}
                 >
                     <Drawer.Screen 
-                      name="Picture" 
+                      name="New Pictures" 
                       component={Picture}
                       
                       />

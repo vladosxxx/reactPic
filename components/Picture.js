@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import { ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+// import {SafeAreaView} from 'native-base'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage } from '../actions/actions'
 import SearchBar from './SearchBar'
@@ -23,8 +24,10 @@ function Picture(props){
         setOnePic(a)
     }
     const loadNewData = () => {
+
         if(props.data.data.length >= 100){
             setNumberPage(2)
+            return 0
         }
         if(searchTerm === ''){
             setNumberPage(isNumberPage+1)
@@ -44,9 +47,11 @@ function Picture(props){
     }
     else {
         return (
-            <View>
+            <View style={{ flex: 1 }}>
             <SearchBar updateData={updateData}/>
+            <SafeAreaView style={{ flex: 1 }}>
                 <FlatList
+                style={{ flex: 1 }}
                     data={props.data.data}
                     onEndReachedThreshold={0.1}
                     onEndReached={loadNewData}
@@ -64,6 +69,7 @@ function Picture(props){
                     )}
                     keyExtractor={item => item.id}
                 />
+            </SafeAreaView>
                 <Modal
                     isVisible={isModalVisible}
                     backdropColor = "black"
