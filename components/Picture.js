@@ -1,20 +1,44 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button } from 'react-native'
-// import { Button } from 'native-base'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage } from '../actions/actions'
-import * as MediaLibrary from 'expo-media-library';
+
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
+import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
+// import ManageWallpaper, { TYPE } from 'react-native-manage-wallpaper';
 
 
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
+    // const [isLoadPic, setLoadPic] = useState(0);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
+    // const [hasPermission, setHasPermission] = useState(null);
 
+    // useEffect(() => {
+    //     (async () => {
+    //     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    //     setHasPermission(status === 'granted');
+    //     })();
+    // }, []);
+
+    // let callback = res => {
+    //     console.log('Response: ', res);
+    //   };
+    // let setWallpaper = (url) => {
+    //     ManageWallpaper.setWallpaper(
+    //        {
+    //          uri: url,
+    //        },
+    //        callback,
+    //        TYPE.HOME,
+    //      );
+    //    };
     const updateData = (value) => {
         setSearchTerm(value)
      }
@@ -24,8 +48,27 @@ function Picture(props){
     const fullScreenPic = (a) =>{
         setOnePic(a)
     }
-    const loadNewData = () => {
+    const saveFile = async (fileUri) => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted") {
+             await MediaLibrary.createAssetAsync(fileUri)   
+        }
+        else {
+            console.log('Cant Save')
+        }
+    }
+    const downloadLocal = (uri) => {
+        let fileUri = FileSystem.documentDirectory + "full.jpg";
+        FileSystem.downloadAsync(uri, fileUri)
+    .then(({ uri }) => {
+        saveFile(uri);
+      })
+      .catch(error => {
+        console.error(error);
+      })
 
+    }
+    const loadNewData = () => {
         if(props.data.data.length >= 100){
             setNumberPage(2)
             return 0
@@ -60,7 +103,8 @@ function Picture(props){
                         <TouchableOpacity onPress={
                             () => {
                                 toggleModal()
-                                fullScreenPic(item.urls)}
+                                fullScreenPic(item.urls)
+                            }
                         }
                         >
                         <Image
@@ -88,9 +132,13 @@ function Picture(props){
                                 setLoadOnepic(false)}
                             />
                         <Button
-                            title="Learn"
-                            onPress={() => MediaLibrary.saveToLibraryAsync(isOnePic.full)}
+                            title="Save Picture"
+                            onPress={() => downloadLocal(isOnePic.full)}
                             />
+                        {/* <Button
+                            title="Set Wallpaper"
+                            onPress={() => setWallpaper(isOnePic.full)}
+                            /> */}
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -121,7 +169,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     picfull: {
-        height: "80%",
+        height: "97%",
         width: "100%"
     },
     picnormal: {
@@ -136,4 +184,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-  export default connect(mapStateToProps, mapDispatchToProps)(Picture)
+export default connect(mapStateToProps, mapDispatchToProps)(Picture)
