@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button } from 'react-native'
+import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage } from '../actions/actions'
 
@@ -14,7 +14,7 @@ import * as FileSystem from 'expo-file-system';
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
-    // const [isLoadPic, setLoadPic] = useState(0);
+    const [isLoadLocal, setLoadLocal] = useState(false);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
@@ -58,14 +58,15 @@ function Picture(props){
         }
     }
     const downloadLocal = (uri) => {
+        setLoadLocal(true)
         let fileUri = FileSystem.documentDirectory + "full.jpg";
         FileSystem.downloadAsync(uri, fileUri)
-    .then(({ uri }) => {
+        .then(({ uri }) => {
         saveFile(uri);
-      })
-      .catch(error => {
-        console.error(error);
-      })
+        })
+        .catch(error => {
+            console.error(error);
+        }).finally(() => setLoadLocal(false))
 
     }
     const loadNewData = () => {
@@ -131,14 +132,21 @@ function Picture(props){
                                 onLoadEnd={() => 
                                 setLoadOnepic(false)}
                             />
+                        <Modal
+                            isVisible={isLoadLocal}
+                            backdropColor = "black"
+
+                        >
+                            <View style={styles.loadLocal}>
+                            <ActivityIndicator size="large" color="white"  />
+                            <Text style={styles.loadingText}>Downloading...</Text>
+                            </View>
+                        </Modal>
                         <Button
                             title="Save Picture"
                             onPress={() => downloadLocal(isOnePic.full)}
-                            />
-                        {/* <Button
-                            title="Set Wallpaper"
-                            onPress={() => setWallpaper(isOnePic.full)}
-                            /> */}
+                        />
+
                     </TouchableOpacity>
                 </Modal>
             </View>
@@ -182,6 +190,18 @@ const styles = StyleSheet.create({
         height: "100%",
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    loadingText: {
+        // justifySelf: 'center',
+        alignSelf: 'center',
+        color: 'white'
+},
+    loadLocal: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        flexDirection: "column"
     }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Picture)
