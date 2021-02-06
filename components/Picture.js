@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { fetcRandomElements, searchPicPage } from '../actions/actions'
+import { fetcRandomElements, searchPicPage, fetcRandomPics } from '../actions/actions'
 
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
@@ -18,28 +18,18 @@ function Picture(props){
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
-    // const [hasPermission, setHasPermission] = useState(null);
+    const [hasPermission, setHasPermission] = useState(null);
 
-    // useEffect(() => {
-    //     (async () => {
-    //     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    //     setHasPermission(status === 'granted');
-    //     })();
-    // }, []);
+    useEffect(() => {
+        (async () => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        setHasPermission(status === 'granted');
+        })();
+        props.fetchFirst(1)
+    }, []);
 
-    // let callback = res => {
-    //     console.log('Response: ', res);
-    //   };
-    // let setWallpaper = (url) => {
-    //     ManageWallpaper.setWallpaper(
-    //        {
-    //          uri: url,
-    //        },
-    //        callback,
-    //        TYPE.HOME,
-    //      );
-    //    };
     const updateData = (value) => {
+        console.log('UPDATE Data')
         setSearchTerm(value)
      }
     const toggleModal = () => {
@@ -49,8 +39,7 @@ function Picture(props){
         setOnePic(a)
     }
     const saveFile = async (fileUri) => {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status === "granted") {
+        if (hasPermission === "granted") {
              await MediaLibrary.createAssetAsync(fileUri)   
         }
         else {
@@ -96,6 +85,7 @@ function Picture(props){
             <SearchBar updateData={updateData}/>
             <SafeAreaView style={{ flex: 1 }}>
                 <FlatList
+
                 style={{ flex: 1 }}
                     data={props.data.data}
                     onEndReachedThreshold={0.1}
@@ -138,7 +128,7 @@ function Picture(props){
 
                         >
                             <View style={styles.loadLocal}>
-                            <ActivityIndicator size="large" color="white"  />
+                            <ActivityIndicator size="large" color="white"/>
                             <Text style={styles.loadingText}>Downloading...</Text>
                             </View>
                         </Modal>
@@ -162,6 +152,7 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
+        fetchFirst: () => dispatch(fetcRandomPics(1)),
         fetchPage: (num) => dispatch(fetcRandomElements(num)),
         searchPage: (text, isNumberPage) => dispatch(searchPicPage(text, isNumberPage))
     };

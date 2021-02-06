@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import {searchPic, fetcRandomPics} from "../actions/actions";
 import { useNavigation } from '@react-navigation/native';
 
-
-
 function SearchBar(props){
     const [searchTerm, setSearchTerm] = useState("");
     const navigation = useNavigation();
@@ -14,18 +12,22 @@ function SearchBar(props){
     };
     const searchSubmit = () => {
       if(searchTerm.trim() === ""){
+          console.log('We are here')
           setSearchTerm("")
           props.updateData(searchTerm)
           props.fetchRandom()
       }
       else{
+          console.log('We are ELSE')
         props.updateData(searchTerm)
         props.fetchData(searchTerm)
       }
     }
     const cleanSearch = () => {
       setSearchTerm("")
-      props.fetchRandom()
+        // console.log("seachTerm: ", searchTerm)
+        // props.updateData(searchTerm)
+        props.fetchRandom()
     }
 
     return (

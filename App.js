@@ -16,7 +16,7 @@ import AboutApp from "./components/AboutApp";
 
 const Drawer = createDrawerNavigator();
 const store = createStore(fetchData, applyMiddleware(thunk))
-store.dispatch(fetcRandomPics(1))
+// store.dispatch(fetcRandomPics(1))
 
 function App() {
     const [isReady, setReady] = useState(false)
