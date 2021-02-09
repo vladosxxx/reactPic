@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text, ImageBackground } from 'react-native'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage, fetcRandomPics } from '../actions/actions'
+import { useFocusEffect } from '@react-navigation/native';
 
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
@@ -21,6 +22,22 @@ function Picture(props){
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
     const [hasPermission, setHasPermission] = useState(null);
+    const [isParam, setParam] = useState(null)
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if(props.route.params)
+            {
+                setParam(props.route.params.pics)
+                if(isParam !== ""){
+                    setSearchTerm(isParam)
+                    console.log(searchTerm)
+                    // setNumberPage(isNumberPage+1)
+                    props.searchPage(searchTerm, 1)
+                }
+            }
+        }, [props.route.params])
+    )
 
     useEffect(() => {
         (async () => {
@@ -41,8 +58,8 @@ function Picture(props){
         setOnePic(a)
     }
     const saveFile = async (fileUri) => {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status === "granted") {
+        // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (hasPermission === "granted") {
              await MediaLibrary.createAssetAsync(fileUri)   
         }
         else {

@@ -51,6 +51,11 @@ function App() {
                       component={Picture}
                       
                       />
+                    <Drawer.Screen
+                        name="Cars"
+                        component={Picture}
+                        initialParams={{pics: "car"}}
+                    />
                     <Drawer.Screen 
                       name="AboutApp" 
                       component={AboutApp} 
