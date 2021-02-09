@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text } from 'react-native'
+import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text, ImageBackground } from 'react-native'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage, fetcRandomPics } from '../actions/actions'
 
@@ -8,6 +8,7 @@ import Modal from 'react-native-modal';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
+import { Icon } from 'native-base'
 // import ManageWallpaper, { TYPE } from 'react-native-manage-wallpaper';
 
 
@@ -15,6 +16,7 @@ function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadLocal, setLoadLocal] = useState(false);
+    const [isDone, setDone] = useState(false);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
@@ -29,7 +31,7 @@ function Picture(props){
     }, []);
 
     const updateData = (value) => {
-        console.log('UPDATE Data')
+        console.log('UPDATE Data', value)
         setSearchTerm(value)
      }
     const toggleModal = () => {
@@ -39,7 +41,8 @@ function Picture(props){
         setOnePic(a)
     }
     const saveFile = async (fileUri) => {
-        if (hasPermission === "granted") {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted") {
              await MediaLibrary.createAssetAsync(fileUri)   
         }
         else {
@@ -50,12 +53,13 @@ function Picture(props){
         setLoadLocal(true)
         let fileUri = FileSystem.documentDirectory + "full.jpg";
         FileSystem.downloadAsync(uri, fileUri)
-        .then(({ uri }) => {
-        saveFile(uri);
-        })
+        .then(({ uri }) => saveFile(uri))
+        .then(() => setLoadLocal(false))
+        .then(() => setDone(true))
+        .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
         .catch(error => {
             console.error(error);
-        }).finally(() => setLoadLocal(false))
+        }).finally(()=>setDone(false))
 
     }
     const loadNewData = () => {
@@ -98,9 +102,14 @@ function Picture(props){
                             }
                         }
                         >
-                        <Image
+                        <ImageBackground 
                             source={{ uri: item.urls.small }}
-                            style={styles.picnormal}/>
+                            style={styles.picnormal}>
+                            <View style={{width: '100%',position: 'absolute', left: 0, bottom: 0, backgroundColor: 'rgba(232, 232, 232, 0.5);', paddingLeft: 10}}>
+                                <Text style={{color: 'rgba(0,0,0,0.8)', fontSize: 20,
+    }}>Picture by {item.user.name}</Text>
+                            </View>
+                        </ImageBackground>
                         </TouchableOpacity>
                     )}
                     keyExtractor={item => item.id}
@@ -130,6 +139,17 @@ function Picture(props){
                             <View style={styles.loadLocal}>
                             <ActivityIndicator size="large" color="white"/>
                             <Text style={styles.loadingText}>Downloading...</Text>
+                            </View>
+                        </Modal>
+                        <Modal
+                            isVisible={isDone}
+                            backdropColor = "black"
+
+                        >
+                            <View style={styles.loadLocal}>
+                                <Image source={require('../assets/check-circle.gif')}></Image>
+                            {/* <Icon name="ios-checkbox-outline" style={{fontSize: 20, color: 'white'}}/> */}
+                            <Text style={styles.loadingText}>Done</Text>
                             </View>
                         </Modal>
                         <Button
@@ -172,7 +192,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     picnormal: {
-        height: 150,
+        height: 250,
         width: "100%"
     },
     loading: {

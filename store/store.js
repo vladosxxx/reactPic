@@ -6,6 +6,7 @@ let initialState = {
 
 export default function fetchData(state = initialState, action) {
     switch (action.type) {
+
         case 'ACTION_LOAD_DATA':
             {
                 return {

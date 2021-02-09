@@ -2,6 +2,7 @@ import Unsplash, { toJson } from 'unsplash-js'
 
 const ACTION_LOAD_DATA = 'ACTION_LOAD_DATA'
 const ACTION_LOAD_ELEMENTS = 'ACTION_LOAD_ELEMENTS'
+const CLEAR_DATA = 'CLEAR_DATA'
 
 const unsplash = new Unsplash({
     accessKey: "7SI75r0Sdp9V-rT7tOLGF4AdEs7j4764GpQn_4VpMk4"
@@ -20,6 +21,7 @@ function actionLoadElements(data) {
         payload: data
     }
 }
+
 
 export function fetcRandomPics(num) {
     return (dispatch) => {
