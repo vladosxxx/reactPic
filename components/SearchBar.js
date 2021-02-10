@@ -64,7 +64,7 @@ function SearchBar(props){
 }
 
 const mapDispatchToProps = (dispatch) => {
-    console.log('dispatch')
+    console.log('dispatch search')
     return {
         fetchData: (text) => dispatch(searchPic(text, 1)),
         fetchRandom: () => dispatch(fetcRandomPics(1))

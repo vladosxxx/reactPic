@@ -22,6 +22,12 @@ function actionLoadElements(data) {
     }
 }
 
+export function actoinClearData() {
+    return {
+        type: CLEAR_DATA,
+        payload: []
+    }
+}
 
 export function fetcRandomPics(num) {
     return (dispatch) => {

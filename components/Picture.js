@@ -1,22 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text, ImageBackground } from 'react-native'
 import { connect } from 'react-redux'
-import { fetcRandomElements, searchPicPage, fetcRandomPics } from '../actions/actions'
+import { fetcRandomElements, searchPicPage, fetcRandomPics, searchPic, actoinClearData } from '../actions/actions'
 import { useFocusEffect } from '@react-navigation/native';
-
 import SearchBar from './SearchBar'
 import Modal from 'react-native-modal';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import { Icon } from 'native-base'
-// import ManageWallpaper, { TYPE } from 'react-native-manage-wallpaper';
+
 
 
 function Picture(props){
     const [isModalVisible, setModalVisible] = useState(false);
     const [isOnePic, setOnePic] = useState(0);
     const [isLoadLocal, setLoadLocal] = useState(false);
+    const [isLoading2, setLoading2] = useState(false);
     const [isDone, setDone] = useState(false);
     const [isLoadOnepic, setLoadOnepic] = useState(true);
     const [isNumberPage, setNumberPage] = useState(2)
@@ -26,27 +26,42 @@ function Picture(props){
 
     useFocusEffect(
         React.useCallback(() => {
-            if(props.route.params)
+            console.log('here')
+            let promise1 = new Promise((resolve ,reject) => {
+                props.clearData()
+                resolve()
+            })
+            console.log(isLoading2)
+            if(props.route.params.pics !== "")
             {
-                setParam(props.route.params.pics)
-                if(isParam !== ""){
-                    setSearchTerm(isParam)
-                    console.log(searchTerm)
-                    // setNumberPage(isNumberPage+1)
-                    props.searchPage(searchTerm, 1)
-                }
+                console.log('here1')
+                promise1
+                .then(props.clearData())
+                .then(() => setLoading2(true))
+                .then(()=>setSearchTerm(props.route.params.pics))
+                .then(() => console.log('in Promise ', isLoading2))
+                .then(() => props.searchPicFirst(searchTerm))
+                .finally(() => setLoading2(false))
+            }else
+            {
+                console.log('here2')
+                promise1
+                .then(props.clearData())
+                .then(() => setLoading2(true))
+                .then(() => setSearchTerm(""))
+                .then(props.fetchFirst(1))
+                .finally(() => setLoading2(false))
             }
+            // props.fetchFirst(1)
         }, [props.route.params])
     )
-
     useEffect(() => {
         (async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         setHasPermission(status === 'granted');
         })();
-        props.fetchFirst(1)
+        // props.fetchFirst(1)
     }, []);
-
     const updateData = (value) => {
         console.log('UPDATE Data', value)
         setSearchTerm(value)
@@ -77,7 +92,7 @@ function Picture(props){
         .catch(error => {
             console.error(error);
         }).finally(()=>setDone(false))
-
+    
     }
     const loadNewData = () => {
         if(props.data.data.length >= 100){
@@ -93,7 +108,7 @@ function Picture(props){
             props.searchPage(searchTerm, isNumberPage)
         }
     }
-    if (props.data.isLoading === true){
+    if (isLoading2 === true || props.data.isLoading === true){
         return (
             <View style={[styles.container, styles.horizontal]}>
                 <ActivityIndicator size="large" color="#0000ff" />
@@ -106,8 +121,7 @@ function Picture(props){
             <SearchBar updateData={updateData}/>
             <SafeAreaView style={{ flex: 1 }}>
                 <FlatList
-
-                style={{ flex: 1 }}
+                    style={{ flex: 1 }}
                     data={props.data.data}
                     onEndReachedThreshold={0.1}
                     onEndReached={loadNewData}
@@ -123,8 +137,10 @@ function Picture(props){
                             source={{ uri: item.urls.small }}
                             style={styles.picnormal}>
                             <View style={{width: '100%',position: 'absolute', left: 0, bottom: 0, backgroundColor: 'rgba(232, 232, 232, 0.5);', paddingLeft: 10}}>
-                                <Text style={{color: 'rgba(0,0,0,0.8)', fontSize: 20,
-    }}>Picture by {item.user.name}</Text>
+                                <Text style={{
+                                    color: 'rgba(0,0,0,0.8)', 
+                                    fontSize: 20,
+                                    }}>Picture by {item.user.name}</Text>
                             </View>
                         </ImageBackground>
                         </TouchableOpacity>
@@ -189,9 +205,11 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
+        clearData: () => dispatch(actoinClearData()),
         fetchFirst: () => dispatch(fetcRandomPics(1)),
         fetchPage: (num) => dispatch(fetcRandomElements(num)),
-        searchPage: (text, isNumberPage) => dispatch(searchPicPage(text, isNumberPage))
+        searchPage: (text, isNumberPage) => dispatch(searchPicPage(text, isNumberPage)),
+        searchPicFirst: (text) => dispatch(searchPic(text, 1))
     };
 };
 const styles = StyleSheet.create({

@@ -6,7 +6,13 @@ let initialState = {
 
 export default function fetchData(state = initialState, action) {
     switch (action.type) {
-
+        case 'CLEAR_DATA':
+            {
+                return {
+                    isLoading: false,
+                    data: action.payload
+                }
+            }
         case 'ACTION_LOAD_DATA':
             {
                 return {

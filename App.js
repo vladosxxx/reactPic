@@ -16,7 +16,7 @@ import AboutApp from "./components/AboutApp";
 
 const Drawer = createDrawerNavigator();
 const store = createStore(fetchData, applyMiddleware(thunk))
-// store.dispatch(fetcRandomPics(1))
+store.dispatch(fetcRandomPics(1))
 
 function App() {
     const [isReady, setReady] = useState(false)
@@ -49,15 +49,30 @@ function App() {
                     <Drawer.Screen 
                       name="New Pictures" 
                       component={Picture}
-                      
+                      initialParams={{pics: ""}}
                       />
                     <Drawer.Screen
                         name="Cars"
                         component={Picture}
                         initialParams={{pics: "car"}}
                     />
+                    <Drawer.Screen
+                        name="Animals"
+                        component={Picture}
+                        initialParams={{pics: "animal"}}
+                    />
+                    <Drawer.Screen
+                        name="Abstract"
+                        component={Picture}
+                        initialParams={{pics: "abstract"}}
+                    />
+                    <Drawer.Screen
+                        name="Space"
+                        component={Picture}
+                        initialParams={{pics: "space"}}
+                    />
                     <Drawer.Screen 
-                      name="AboutApp" 
+                      name="About" 
                       component={AboutApp} 
                       />
                 </Drawer.Navigator>
