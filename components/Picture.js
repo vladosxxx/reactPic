@@ -65,7 +65,7 @@ function Picture(props){
     }
     const saveFile = async (fileUri) => {
         // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (hasPermission === "granted") {
+        if (hasPermission === true) {
              await MediaLibrary.createAssetAsync(fileUri)   
         }
         else {
