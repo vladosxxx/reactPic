@@ -22,36 +22,27 @@ function Picture(props){
     const [isNumberPage, setNumberPage] = useState(2)
     const [searchTerm, setSearchTerm] = useState("");
     const [hasPermission, setHasPermission] = useState(null);
-    const [isParam, setParam] = useState(null)
+    // const [isParam, setParam] = useState(null)
 
     useFocusEffect(
         React.useCallback(() => {
-            console.log('here')
-            let promise1 = new Promise((resolve ,reject) => {
-                props.clearData()
-                resolve()
-            })
-            console.log(isLoading2)
+            
+            setSearchTerm(props.route.params.pics)
             if(props.route.params.pics !== "")
             {
                 console.log('here1')
-                promise1
-                .then(props.clearData())
-                .then(() => setLoading2(true))
-                .then(()=>setSearchTerm(props.route.params.pics))
-                .then(() => console.log('in Promise ', isLoading2))
-                .then(() => props.searchPicFirst(searchTerm))
-                .finally(() => setLoading2(false))
+                props.clearData()
+                props.searchPicFirst(props.route.params.pics)
+                console.log("search",searchTerm)
+                
             }else
             {
                 console.log('here2')
-                promise1
-                .then(props.clearData())
-                .then(() => setLoading2(true))
-                .then(() => setSearchTerm(""))
-                .then(props.fetchFirst(1))
-                .finally(() => setLoading2(false))
+                props.clearData()
+                props.fetchFirst(1)
+                console.log("search",searchTerm)
             }
+            
             // props.fetchFirst(1)
         }, [props.route.params])
     )
@@ -180,8 +171,8 @@ function Picture(props){
 
                         >
                             <View style={styles.loadLocal}>
-                                <Image source={require('../assets/check-circle.gif')}></Image>
-                            {/* <Icon name="ios-checkbox-outline" style={{fontSize: 20, color: 'white'}}/> */}
+                                {/* <Image source={require('../assets/check-circle.gif')}></Image> */}
+                            <Icon name="ios-checkbox-outline" style={{fontSize: 20, color: 'white'}}/>
                             <Text style={styles.loadingText}>Done</Text>
                             </View>
                         </Modal>

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import { ScrollView, Image, Text, SafeAreaView} from 'react-native';
+import { Icon } from "native-base"
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'
@@ -47,33 +48,86 @@ function App() {
                 }}
                 >
                     <Drawer.Screen 
-                      name="New Pictures" 
+                      name="Top Pictures" 
                       component={Picture}
                       initialParams={{pics: ""}}
+                      options={{
+                        drawerIcon: () => (
+                          <Icon
+                            name="star"
+                          />
+                        )
+                      }}
                       />
                     <Drawer.Screen
                         name="Cars"
                         component={Picture}
                         initialParams={{pics: "car"}}
+                        options={{
+                          drawerIcon: () => (
+                            <Icon
+                              name="car"
+                            />
+                          )
+                        }}
                     />
                     <Drawer.Screen
                         name="Animals"
                         component={Picture}
                         initialParams={{pics: "animal"}}
+                        options={{
+                          drawerIcon: () => (
+                            <Icon
+                              name="md-paw"
+                            />
+                          )
+                        }}
                     />
                     <Drawer.Screen
                         name="Abstract"
                         component={Picture}
                         initialParams={{pics: "abstract"}}
+                        options={{
+                          drawerIcon: () => (
+                            <Icon
+                              name="ios-aperture"
+                            />
+                          )
+                        }}
                     />
                     <Drawer.Screen
                         name="Space"
                         component={Picture}
                         initialParams={{pics: "space"}}
+                        options={{
+                          drawerIcon: () => (
+                            <Icon
+                              name="planet"
+                            />
+                          )
+                        }}
                     />
                     <Drawer.Screen 
+                      name="Set Wallpaper" 
+                      component={Picture}
+                      options={{
+                        drawerIcon: () => (
+                          <Icon
+                            name="hammer"
+                          />
+                        )
+                      }}
+                      />
+                    <Drawer.Screen 
                       name="About" 
-                      component={AboutApp} 
+                      component={AboutApp}
+                      options={{
+                        drawerIcon: () => (
+                          <Icon
+                            name="information-circle"
+                          />
+                        )
+                      }}
                       />
                 </Drawer.Navigator>
             </NavigationContainer>

@@ -61,6 +61,7 @@ export function searchPicPage(text, num) {
 }
 export function searchPic(text, num) {
     return (dispatch) => {
+        console.log("in action search")
         unsplash.search.photos(text, num, 10)
             .then(toJson)
             .then(data => {
