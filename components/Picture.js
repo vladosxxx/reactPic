@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback } from 'react'
 import { SafeAreaView, ActivityIndicator, View, TouchableOpacity, FlatList, Image, StyleSheet, Button, Text, ImageBackground } from 'react-native'
 import { connect } from 'react-redux'
 import { fetcRandomElements, searchPicPage, fetcRandomPics, searchPic, actoinClearData } from '../actions/actions'
@@ -25,7 +25,7 @@ function Picture(props){
     // const [isParam, setParam] = useState(null)
 
     useFocusEffect(
-        React.useCallback(() => {
+        useCallback(() => {
             
             setSearchTerm(props.route.params.pics)
             if(props.route.params.pics !== "")

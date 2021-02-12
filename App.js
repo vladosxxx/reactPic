@@ -141,7 +141,7 @@ const CustomDrawer = props => {
     <ScrollView contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
     <SafeAreaView>
         <Image 
-        source={require('./assets/logo.png')}
+        source={require('./assets/vinyl3.png')}
         style={{ width: 150, height: 150, alignSelf: 'center'}} 
         /> 
       <DrawerItemList {...props}/>
