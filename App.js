@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import {fetcRandomPics} from "./actions/actions";
 import AboutApp from "./components/AboutApp";
+import Intro from './components/Intro'
 
 
 const Drawer = createDrawerNavigator();
@@ -23,15 +24,14 @@ function App() {
     const [isReady, setReady] = useState(false)
 
     useEffect(() => {
-      async function fetchFonts() {
+        (async () => {
         await Font.loadAsync({
           Roboto: require('native-base/Fonts/Roboto.ttf'),
           Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
           ...Ionicons.font,
         });
         setReady(true);
-      }
-      fetchFonts()
+      }) ()
     }, [])
     if (!isReady) {
       return <AppLoading />;
@@ -50,7 +50,7 @@ function App() {
                     <Drawer.Screen 
                       name="Top Pictures" 
                       component={Picture}
-                      initialParams={{pics: ""}}
+                      initialParams={{pics: " "}}
                       options={{
                         drawerIcon: () => (
                           <Icon
